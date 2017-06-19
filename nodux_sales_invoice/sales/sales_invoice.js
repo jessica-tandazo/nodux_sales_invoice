@@ -1,6 +1,6 @@
 frappe.ui.form.on('Sales Invoice', {
 	onload: function(frm){
-		var me = this;
+		msgprint("BIENVENIDO");
 		if (!frm.doc.status)
 			frm.doc.status = 'Draft';
 		frm.refresh_fields();
@@ -42,14 +42,11 @@ frappe.ui.form.on('Sales Invoice', {
 					//for (item in frm.doc.items) {
 						//item_code = item.item_code;
 						$.each(frm.doc.items, function(index, data){
-								item_code = data.item_code;
+								item_code = data.item_code_1;
 								frappe.db.get_value("Item", {"item_code":  item_code}, "cost_price", function(r) {
 									cost_price = r.cost_price;
 									nuevo_punit = cost_price * (1 + porcentaje_nuevo/100);
-									//frm.doc.rate = nuevo_punit;
 									data.rate = nuevo_punit;
-									//frm.set_value("items.rate", nuevo_punit);
-									//msgprint("VALOR:" + nuevo_punit);
 									refresh_field('items');
 								})
 						})
@@ -58,7 +55,6 @@ frappe.ui.form.on('Sales Invoice', {
 				}
 				else {
 					msgprint("LA TABLA NO ESTÁ CARGADA");
-
 				}
 
 			} else {
@@ -142,19 +138,6 @@ frappe.ui.form.on('Sales Invoice Item', {
 		// 	});
 		// 	frm.refresh_fields();
 		// }
-		//-----------------NUEVO CÓDIGO ------------------
-	// ]if (frm.doc.item_code){
-			// var producto = cur_frm.doc.item_code;
-			// msgprint("Prod: "+ producto);
-			// frappe.db.get_value("Item", {"item_code": }, "item_group_name", function(r) {
-			//
-			// })
-			//
-			// } else {
-			// 	msgprint("Defina una regla que sea diferente a la predeterminada")
-			// }
-
- //------------------------------------------------------------------------ ///
 
 	}
 

@@ -25,7 +25,7 @@ class DeliveryNote(Document):
 @frappe.whitelist()
 def get_item_code_sale(item_code):
     #print "VALOR ARGS:", item_code
-    item = frappe.db.sql("""select item_name,barcode,description,stock_uom,selling_price from `tabItem`
+    item = frappe.db.sql("""select item_name,barcode,description,stock_uom,unit_price,unit_price_with_tax from `tabItem`
         where item_code = %s""",
         (item_code), as_dict = 1)
 
@@ -34,14 +34,15 @@ def get_item_code_sale(item_code):
     item = item[0]
     print "ITEM", item
     ret ={
-		'item_name' 		  	: item.item_name,
-        'barcode'				: item.barcode,
-        'description'		  	: item.description,
-        'stock_uom'			    : item.stock_uom,
-		'qty'					: 1,
-		'unit_price'			: item.selling_price,
-		'unit_price_with_no_dcto'	: item.selling_price,
-		'subtotal'				: item.selling_price
+		'item_name' 		  	     : item.item_name,
+        'barcode'				     : item.barcode,
+        'description'		  	     : item.description,
+        'stock_uom'			         : item.stock_uom,
+		'qty'					     : 1,
+		'unit_price'			     : item.unit_price,
+		'unit_price_with_no_dcto'	 : item.unit_price,
+        'unit_price_with_tax'	     : item.unit_price_with_tax,
+		'subtotal'				     : item.unit_price
     }
     return ret
 
@@ -49,34 +50,3 @@ def get_item_code_sale(item_code):
 def get_it(salary):
     ss = salary
     return ss
-        # if self.pricing_rule:
-        #     rule = self.pricing_rule
-        #     porcentaje = frappe.db.get_value("Pricing Rule", {"title":("like rule")}, "margin_rate_or_amount")
-        #     item = frappe.db.sql("""select price_list_rate from `tabItem Price`
-        #         where item_code = %s""",
-        #             (args.get('item_code')), as_dict = 1)
-        #     if not item:
-        #         frappe.throw(_("Item {0} doesn't have a defined price").format(args.get("item_code")))
-        #
-        #     item = item[0]
-        #     precio_unit = item * (1 + porcentaje/100)
-        #
-        #             #item = item[0]
-        #     ret = {
-        #         "barcode"               : 123,
-        #         "item_name"             : "prod_1",
-        #         "qty"                   : 1,
-        #         "stock_uom"             : 1,
-        #         'discount_percentage'   : 1
-        #                 # 'description'		  	: item.description,
-        #                 # 'item_name' 		  	: item.item_name,
-        #                 # 'qty'					: 1,
-        #                 # 'barcode'				: item.barcode,
-        #                 # 'unit_price'			: item.list_price,
-        #                 # 'unit_price_with_tax'	: item.list_price_with_tax,
-        #                 # 'subtotal'				: item.list_price_with_tax
-        #         }
-        #
-        #     return ret
-        # else:
-        #     throw(_("Debe elegir una regla de precios"))

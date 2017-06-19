@@ -95,5 +95,45 @@ def validate(doc, event):
                                     nuevo_valor = nuevo_valor[0]
                                     doc.termino_de_pago = nuevo_valor.termino_de_pago
 
+    # @frappe.whitelist()
+    # def make_purchase_invoice(source_name, target_doc=None):
+    #     def postprocess(source, target):
+    #         set_missing_values(source, target)
+    #         #Get the advance paid Journal Entries in Purchase Invoice Advance
+    #         target.set_advances()
+    #
+    #     def update_item(obj, target, source_parent):
+    #         target.amount = flt(obj.amount) - flt(obj.billed_amt)
+    #         target.base_amount = target.amount * flt(source_parent.conversion_rate)
+    #         target.qty = target.amount / flt(obj.rate) if (flt(obj.rate) and flt(obj.billed_amt)) else flt(obj.qty)
+    #         print "QTY ", target.qty
+    #         item = frappe.db.get_value("Item", target.item_code, ["item_group", "buying_cost_center"], as_dict=1)
+    #         target.cost_center = frappe.db.get_value("Project", obj.project, "cost_center") \
+    #             or item.buying_cost_center \
+    #             or frappe.db.get_value("Item Group", item.item_group, "default_cost_center")
+    #
+    #         doc = get_mapped_doc("Purchase Order", source_name,	{
+    #         "Purchase Order": {
+    #             "doctype": "Purchase Invoice",
+    #             "validation": {
+    #                 "docstatus": ["=", 1],
+    #             }
+    #         },
+    #         "Purchase Order Item": {
+    #             "doctype": "Purchase Invoice Item",
+    #             "field_map": {
+    #                 "name": "po_detail",
+    #                 "parent": "purchase_order",
+    #             },
+    #             "postprocess": update_item,
+    #             "condition": lambda doc: (doc.base_amount==0 or abs(doc.billed_amt) < abs(doc.amount))
+    #             },
+    #             "Purchase Taxes and Charges": {
+    #                 "doctype": "Purchase Taxes and Charges",
+    #                 "add_if_empty": True
+    #             }
+    #         }, target_doc, postprocess)
+    #
+    #         return doc
     # if doc.referencia_de_proveedor:
     #     frappe.set_value("Purchase Invoice", "Purchase Invoice", "referencia", doc.referencia_de_proveedor);

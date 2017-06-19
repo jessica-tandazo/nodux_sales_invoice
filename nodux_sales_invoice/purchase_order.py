@@ -30,13 +30,3 @@ def get_item_code_sale(item_code):
 		'subtotal'				     : item.cost_price
     }
     return ret
-
-# @frappe.whitelist()
-# def update_to_quotation_purchase(doc):
-# 	doc.status = "Quotation"
-# 	doc.save()
-
-# @frappe.whitelist()
-# def update_to_confirm_purchase():
-# 	doc.status = "Confirm"
-# 	doc.save()

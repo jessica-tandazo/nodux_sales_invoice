@@ -10,7 +10,7 @@ app_icon = "octicon octicon-file-directory"
 app_color = "red"
 app_email = "jessicat@nodux.ec"
 app_license = "MIT"
-fixtures = ["Sales Invoice","Item","Delivery Note","Delivery Note Item","Purchase Order",
+fixtures = ["Pricing Rule","Sales Invoice","Sales Invoice Item","Item","Delivery Note","Delivery Note Item","Purchase Order",
             "Purchase Order Item", "Purchase Invoice"]
 
 doctype_js = {
@@ -83,9 +83,7 @@ doctype_py = {
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
-item_code_sale = {
- 	"Delivery Note": "nodux_sales_invoice.delivery_note.delivery_note.get_item_code_sale",
- }
+
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
@@ -102,6 +100,9 @@ item_code_sale = {
 #	}
 # }
 doc_events = {
+    "Pricing Rule": {
+        "validate": "nodux_sales_invoice.pricing_rule.validate"
+    },
     "Purchase Order": {
         "validate": "nodux_sales_invoice.purchase.validate"
     },
@@ -110,13 +111,16 @@ doc_events = {
     }
 
 }
-hooks = ["venta", "plan_acumulativo","bloquear_credito","limite_de_credito","tienda","vendedor",
-    "bodega","pricing_rule","cost_price","formas_de_pago_sri","termino_de_pago", "pricing_rule",
-    "deleivery_items","unit_price","unit_price_with_no_dcto","discount","subtotal",
+hooks = ["definir_como_precio_de_venta","venta","plan_acumulativo","bloquear_credito","limite_de_credito","tienda","vendedor",
+    "bodega","pricing_rule",
+    "item_code_1",
+    "cost_price","unit_price","unit_price_with_tax",
+    "formas_de_pago_sri","termino_de_pago", "pricing_rule","base_imponible","impuesto","total_1",
+    "unit_price","unit_price_with_no_dcto","discount","subtotal",
     "referencia_de_proveedor","numero_de_pagos","dias_1","dias_2","dias_3","dias_4","termino_de_pago","bodega",
     "invoice_status","shipping_status",
     "unit_price_with_no_dcto","unit_price","discount","subtotal",
-    "referencia","fecha_de_autorizacion","no_genera_retencion"]
+    "referencia_de_proveedor","fecha_de_autorizacion","no_genera_retencion","base_imponible","impuesto","total_1"]
 
 # Scheduled Tasks
 # ---------------

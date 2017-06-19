@@ -8,22 +8,32 @@ frappe.ui.form.on('Purchase Order', {
        frm.doc.shipping_status ="None";
 		   frm.refresh_fields();
 	},
+  // refresh: function(){
   refresh: function(frm){
-    // if (frm.doc.status == 'Draft') {
-		// 	frm.add_custom_button(__("Quotation"), function() {
-		// 		frm.events.update_to_quotation_purchase(frm);
-		// 	}).addClass("btn-primary");
-		// }
-    // if (frm.doc.status == 'Quotation') {
-		// 	frm.add_custom_button(__("Confirm"), function() {
-		// 		frm.events.update_to_confirm_purchase(frm);
-		// 	}).addClass("btn-primary");
-		// }
-    
+    var me = this;
+    if(frm.doc.docstatus == 1 && frm.doc.status != "Closed") {
+      alert("PURCHASE INVOICE");
+      if(flt(frm.doc.per_billed, 2) < 100){
+        // frm.events.make_purchase_invoice_prueba(frm);
+        cur_frm.add_custom_button(__('Invoice 1'),
+					frm.events.make_purchase_invoice_prueba, __("Make"));
+            //  cur_frm.add_custom_button(__('Invoice'), function() {
+            //    cur_frm.make_purchase_invoice_prueba(), __("Make");
+            //    });
+            // alert("INGRESAR METODO");
+      }
+      cur_frm.page.set_inner_btn_group_as_primary(__("Make"));
+    }
   },
-  update_termino_pago: function(frm){
-    var dias
-  },
+
+  make_purchase_invoice_prueba: function(frm) {
+    alert("AQUI METODO");
+		frappe.model.open_mapped_doc({
+			method: "nodux_sales_invoice.purchase_invoice.make_purchase_invoice_prueba",
+			frm: cur_frm
+      // frm: frm.doc
+		})
+	},
   update_to_quotation_purchase: function(frm) {
 		return frappe.call({
 			method: "nodux_sales_invoice.purchase_order.update_to_quotation_purchase",
